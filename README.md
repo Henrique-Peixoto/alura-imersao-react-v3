@@ -1,84 +1,41 @@
-# Example app with styled-components
+# Alurakut
 
-This example features how you use a different styling solution than [styled-jsx](https://github.com/vercel/styled-jsx) that also supports universal styles. That means we can serve the required styles for the first render within the HTML and then load the rest in the client. In this case we are using [styled-components](https://github.com/styled-components/styled-components).
 
-For this purpose we are extending the `<Document />` and injecting the server side rendered styles into the `<head>`, and also adding the `babel-plugin-styled-components` (which is required for server side rendering). Additionally we set up a global [theme](https://www.styled-components.com/docs/advanced#theming) for styled-components using NextJS custom [`<App>`](https://nextjs.org/docs/advanced-features/custom-app) component.
+![Capturar](https://user-images.githubusercontent.com/57225006/125700023-70cc8ff9-15b2-4479-9e5c-501e8fb29525.PNG)
 
-## Preview
+Achou o layout bonito? Então dá uma olhada na [versão completa](https://www.figma.com/file/xHF0n0qxiE2rqjqAILiBUB/Alurakut?node-id=58%3A0) dele!
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+Este projeto foi desenvolvido durante a Terceira Imersão de React promovido pela [Alura](https://www.alura.com.br/). 
+As duas principais tecnologias utilizadas neste projeto foram [React](https://pt-br.reactjs.org/) e [NextJS](https://nextjs.org/) com deploy na [Vercel](https://vercel.com).
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-styled-components)
+Se quiser dar uma olhada na versão mais atualizada e funcional do projeto, acesse esse [link](https://alurakut-brown-ten.vercel.app/).
 
-## Deploy your own
+## 🚀 Como rodar o projeto
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-styled-components&project-name=with-styled-components&repository-name=with-styled-components)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
+Clone o repositório na sua máquina dentro da pasta que você quer colocá-lo com
 ```bash
-npx create-next-app --example with-styled-components with-styled-components-app
-# or
-yarn create next-app --example with-styled-components with-styled-components-app
+git clone https://github.com/Henrique-Peixoto/alura-imersao-react-v3.git
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-### Try it on CodeSandbox
-
-[Open this example on CodeSandbox](https://codesandbox.io/s/github/vercel/next.js/tree/canary/examples/with-styled-components)
-
-### Notes
-
-When wrapping a [Link](https://nextjs.org/docs/api-reference/next/link) from `next/link` within a styled-component, the [as](https://styled-components.com/docs/api#as-polymorphic-prop) prop provided by `styled` will collide with the Link's `as` prop and cause styled-components to throw an `Invalid tag` error. To avoid this, you can either use the recommended [forwardedAs](https://styled-components.com/docs/api#forwardedas-prop) prop from styled-components or use a different named prop to pass to a `styled` Link.
-
-<details>
-<summary>Click to expand workaround example</summary>
-<br />
-
-**components/StyledLink.js**
-
-```javascript
-import Link from 'next/link'
-import styled from 'styled-components'
-
-const StyledLink = ({ as, children, className, href }) => (
-  <Link href={href} as={as} passHref>
-    <a className={className}>{children}</a>
-  </Link>
-)
-
-export default styled(StyledLink)`
-  color: #0075e0;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #40a9ff;
-  }
-
-  &:focus {
-    color: #40a9ff;
-    outline: none;
-    border: 0;
-  }
-`
+Entre na pasta onde o repositório foi clonado:
+```bash
+cd alura-imersao-react-v3
 ```
 
-**pages/index.js**
-
-```javascript
-import StyledLink from '../components/StyledLink'
-
-export default () => (
-  <StyledLink href="/post/[pid]" forwardedAs="/post/abc">
-    First post
-  </StyledLink>
-)
+Para rodar o projeto execute o seguinte comando dentro da pasta do repositório que você acabou de clonar:
+```bash
+yarn dev
 ```
 
-</details>
+Agora é só acessar ```localhost:3000``` no seu navegador para ver o resultado.
+
+## 📝 Licença
+Este arquivo está sob a licença [MIT](LICENSE.md)
+
+## 🌐 Minhas redes sociais
+<a href="https://www.linkedin.com/in/henrique-peixoto-00/">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+</a>
+<a href="https://github.com/Henrique-Peixoto">
+  <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />
+</a>
