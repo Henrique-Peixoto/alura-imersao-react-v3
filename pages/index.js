@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
@@ -7,6 +7,7 @@ import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
 
 export default function Home() {
   const githubUser = 'Henrique-Peixoto';
+  const [followers, setFollowers] = useState([]);
   const [comunities, setComunities] = useState([{
     id: '10923874',
     title: 'Eu odeia acordar cedo',
@@ -58,6 +59,23 @@ export default function Home() {
     setComunities([...comunities, newComunity]);
   }
 
+  async function getGithubUsers() {
+    try{
+      const response = await fetch('https://api.github.com/users/peas/followers');
+      if(!response.ok){
+        throw new Error('Erro na requisição: '+response.status);
+      }
+      const data = await response.json();
+      setFollowers(data);
+    }catch(error){
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getGithubUsers();
+  }, []);
+
   return (
     <>
       <AlurakutMenu githubUser={githubUser}/>
@@ -98,8 +116,9 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          <RelationsBlock objectArray={comunities} />
-          <RelationsBlock objectArray={comunityPeople} />
+          <RelationsBlock headerText="Seguidores" objectArray={followers} />
+          {/* <RelationsBlock headerText="Comunidades" objectArray={comunities} /> */}
+          {/* <RelationsBlock headerText="Pessoas da comunidade" objectArray={comunityPeople} /> */}
         </div>
       </MainGrid>
   </>
