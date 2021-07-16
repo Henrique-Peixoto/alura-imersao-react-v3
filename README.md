@@ -30,7 +30,7 @@ yarn dev
 Agora é só acessar ```localhost:3000``` no seu navegador para ver o resultado.
 
 ## 📝 Licença
-Este arquivo está sob a licença [MIT](LICENSE.md)
+Este arquivo está sob a licença [MIT](LICENSE)
 
 ## 🌐 Minhas redes sociais
 <a href="https://www.linkedin.com/in/henrique-peixoto-00/">
