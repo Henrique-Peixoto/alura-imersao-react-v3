@@ -5,10 +5,10 @@ import { AlurakutProfileSidebarMenuDefault } from '../../../lib/AlurakutCommons'
 export default function ProfileSidebar({ githubUser }) {
   return (
     <Box as="aside">
-      <img 
+      <img
+        style={{ borderRadius: '8px'}}
         src={`https://github.com/${githubUser}.png`} 
         alt={`Foto de perfil do usuário ${githubUser}`} 
-        style={{ borderRadius: '8px' }}
       />
       <hr />
       <p>
