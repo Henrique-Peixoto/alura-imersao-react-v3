@@ -11,9 +11,9 @@ export default function RelationsBlock({ headerText, objectArray }) {
           objectArray.map((obj) => {
             return (
               <li key={obj.id}>
-                <a href={obj.html_url} target="_blank">
-                  <img src={obj.avatar_url} />
-                  <span>{obj.login}</span>
+                <a href={obj.imageUrl} target="_blank">
+                  <img src={obj.imageUrl} />
+                  <span>{obj.title}</span>
                 </a>
               </li>
             )
