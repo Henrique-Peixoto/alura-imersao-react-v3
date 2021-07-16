@@ -8,12 +8,8 @@ import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
 export default function Home() {
   const githubUser = 'Henrique-Peixoto';
   const [followers, setFollowers] = useState([]);
-  const [comunities, setComunities] = useState([{
-    id: '10923874',
-    title: 'Eu odeia acordar cedo',
-    image: 'https://alurakut.vercel.app/capa-comunidade.01.jpg'
-  }]);
-  const comunityPeople = [
+  const [communities, setCommunities] = useState([]);
+  const communityPeople = [
     {
       id: 'juunegreiros', 
       title: 'juunegreiros', 
@@ -46,20 +42,34 @@ export default function Home() {
     },
   ]
 
-  function handleCreateComunity(e){
+  async function handleCreateCommunity(e){
     e.preventDefault();
-
+    
     const formData = new FormData(e.target);
-    const newComunity = {
-      id: new Date().toISOString(),
+    
+    const newCommunity = {
       title: formData.get('title'),
-      image: formData.get('image')
+      imageUrl: formData.get('image'),
+      creatorSlug: githubUser
     }
+    
+    try{
+      const response = await fetch('/api/comunidade', {
+        method: 'POST',
+        header: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newCommunity)
+      });
 
-    setComunities([...comunities, newComunity]);
+      const data = await response.json();
+      setCommunities([...communities, data.newRegister]);
+    }catch (error){
+      throw new Error('Erro na requisição à api/comunidades' + error);
+    }
   }
 
-  async function getGithubUsers() {
+  async function getGithubFollowers() {
     try{
       const response = await fetch('https://api.github.com/users/peas/followers');
       if(!response.ok){
@@ -72,8 +82,36 @@ export default function Home() {
     }
   }
 
+  async function fetchCommunities() {
+    const response = await fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': '8e421ef34582ae4475657f4d8053dd',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ "query": `query {
+        allCommunities {
+          title
+          id
+          imageUrl
+          creatorSlug
+        }
+      }`})
+    })
+
+    if(!response.ok){
+      throw new Error('Erro na requisição ao DatoCMS:'+response.status);
+    }
+
+    const data = await response.json();
+    const communitiesFromDato = data.data.allCommunities;
+    setCommunities(communitiesFromDato);
+  }
+
   useEffect(() => {
-    getGithubUsers();
+    getGithubFollowers();
+    fetchCommunities();
   }, []);
 
   return (
@@ -93,7 +131,7 @@ export default function Home() {
 
           <Box>
             <h2 className="subTitle">O que você deseja fazer?</h2>
-            <form onSubmit={(e) => handleCreateComunity(e)}>
+            <form onSubmit={(e) => handleCreateCommunity(e)}>
               <div>
                 <input 
                   placeholder="Qual vai ser o nome da sua comunidade?" 
@@ -116,9 +154,9 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          <RelationsBlock headerText="Seguidores" objectArray={followers} />
-          {/* <RelationsBlock headerText="Comunidades" objectArray={comunities} /> */}
-          {/* <RelationsBlock headerText="Pessoas da comunidade" objectArray={comunityPeople} /> */}
+          {/* <RelationsBlock headerText="Seguidores" objectArray={followers} /> */}
+          <RelationsBlock headerText="Comunidades" objectArray={communities} />
+          {/* <RelationsBlock headerText="Pessoas da comunidade" objectArray={communityPeople} /> */}
         </div>
       </MainGrid>
   </>
