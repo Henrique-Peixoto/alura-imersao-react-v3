@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
 import Box from '../src/components/Style/Box';
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 
-export default function Home() {
+// export default function Home(props) {
+export default function Home(){
+  // const githubUser = props.githubUser;
   const githubUser = 'Henrique-Peixoto';
   const [followers, setFollowers] = useState([]);
   const [communities, setCommunities] = useState([]);
@@ -13,32 +17,32 @@ export default function Home() {
     {
       id: 'juunegreiros', 
       title: 'juunegreiros', 
-      image: 'https://github.com/juunegreiros.png'
+      imageUrl: 'https://github.com/juunegreiros.png'
     },
     {
       id: 'omariosouto',
       title: 'omariosouto',
-      image: 'https://github.com/omariosouto.png'
+      imageUrl: 'https://github.com/omariosouto.png'
     },
     {
       id: 'peas',
       title: 'peas',
-      image: 'https://github.com/peas.png'
+      imageUrl: 'https://github.com/peas.png'
     },
     {
       id: 'rafaballerini',
       title: 'rafaballerini',
-      image: 'https://github.com/rafaballerini.png'
+      imageUrl: 'https://github.com/rafaballerini.png'
     },
     {
       id: 'marcobrunodev',
       title: 'marcobrunodev',
-      image: 'https://github.com/marcobrunodev.png'
+      imageUrl: 'https://github.com/marcobrunodev.png'
     },
     {
       id: 'felipefialho',
       title: 'felipefialho',
-      image: 'https://github.com/felipefialho.png'
+      imageUrl: 'https://github.com/felipefialho.png'
     },
   ]
 
@@ -54,7 +58,7 @@ export default function Home() {
     }
     
     try{
-      const response = await fetch('/api/comunidade', {
+      const response = await fetch('/api/comunidades', {
         method: 'POST',
         header: {
           'Content-Type': 'application/json'
@@ -71,12 +75,25 @@ export default function Home() {
 
   async function getGithubFollowers() {
     try{
-      const response = await fetch('https://api.github.com/users/peas/followers');
+      const response = await fetch(`https://api.github.com/users/${githubUser}/followers`);
+      
       if(!response.ok){
         throw new Error('Erro na requisição: '+response.status);
       }
+
       const data = await response.json();
-      setFollowers(data);
+
+      const formattedGithubFollowers = data.map(follower => {
+        return (
+          {
+            id: follower.id,
+            title: follower.login,
+            imageUrl: `https://github.com/${follower.login}.png`
+          }
+        )
+      })
+
+      setFollowers(formattedGithubFollowers);
     }catch(error){
       console.error(error);
     }
@@ -145,6 +162,7 @@ export default function Home() {
                   placeholder="Coloque uma URL para usarmos de capa" 
                   name="image"  
                   aria-label="Coloque uma URL para usarmos de capa"
+                  type="text"
                 />
               </div>
               <button>
@@ -154,11 +172,40 @@ export default function Home() {
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          {/* <RelationsBlock headerText="Seguidores" objectArray={followers} /> */}
+          <RelationsBlock headerText="Seguidores" objectArray={followers} />
           <RelationsBlock headerText="Comunidades" objectArray={communities} />
-          {/* <RelationsBlock headerText="Pessoas da comunidade" objectArray={communityPeople} /> */}
+          <RelationsBlock headerText="Pessoas da comunidade" objectArray={communityPeople} />
         </div>
       </MainGrid>
   </>
   )
 }
+
+// export async function getServerSideProps(context) {
+//   const cookies = nookies.get(context);
+//   const token = cookies.USER_TOKEN;
+  
+//   const { isAuthenticated } = await fetch('https://alurakut.vercel.app/api/auth', {
+//     headers: {
+//       Authorization: token
+//     }
+//   })
+//   .then(response => response.json())
+  
+//   if(!isAuthenticated){
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false
+//       }
+//     }
+//   }
+  
+//   const { githubUser } = jwt.decode(token);
+  
+//   return {
+//     props: {
+//       githubUser
+//     }
+//   }
+// }

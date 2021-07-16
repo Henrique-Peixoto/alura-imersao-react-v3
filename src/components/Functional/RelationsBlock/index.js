@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '../../Style/Box';
 import { ProfileRelationsBoxWrapper } from '../../Style/ProfileRelations';
 
@@ -8,7 +8,7 @@ export default function RelationsBlock({ headerText, objectArray }) {
       <h2 className="smallTitle">{`${headerText} (${objectArray.length})`}</h2>
       <ul>
         { 
-          objectArray.map((obj) => {
+          objectArray.slice(0,6).map(obj => {
             return (
               <li key={obj.id}>
                 <a href={obj.imageUrl} target="_blank">
