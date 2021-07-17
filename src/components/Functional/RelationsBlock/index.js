@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import Box from '../../Style/Box';
+import React from 'react';
 import { ProfileRelationsBoxWrapper } from '../../Style/ProfileRelations';
 
-export default function RelationsBlock({ headerText, objectArray }) {
+export default function RelationsBlock({ headerText, objectArray, goToPage }) {
   return (
     <ProfileRelationsBoxWrapper>
-      <h2 className="smallTitle">{`${headerText} (${objectArray.length})`}</h2>
+      <a href={ goToPage }>
+        <h2 className="smallTitle">{`${headerText} (${objectArray.length})`}</h2>
+      </a>
       <ul>
         { 
           objectArray.slice(0,6).map(obj => {

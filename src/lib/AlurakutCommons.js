@@ -55,6 +55,8 @@ export function AlurakutMenu({ githubUser }) {
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
   background-color: #308BC5;
+  position: fixed;
+  z-index: 10;
 
   .alurakutMenuProfileSidebar {
     background: white;

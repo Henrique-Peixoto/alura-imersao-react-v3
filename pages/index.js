@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
+import { useGithubUsersContext } from '../src/contexts/GithubUsersContext';
+import { usePeopleFromCommunityContext } from '../src/contexts/PeopleFromCommunity';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
@@ -9,42 +11,11 @@ import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
 
 // export default function Home(props) {
 export default function Home(){
-  // const githubUser = props.githubUser;
+  // const githubUser = props.githupbUser;
   const githubUser = 'Henrique-Peixoto';
-  const [followers, setFollowers] = useState([]);
+  const followers = useGithubUsersContext();
+  const communityPeople = usePeopleFromCommunityContext();
   const [communities, setCommunities] = useState([]);
-  const communityPeople = [
-    {
-      id: 'juunegreiros', 
-      title: 'juunegreiros', 
-      imageUrl: 'https://github.com/juunegreiros.png'
-    },
-    {
-      id: 'omariosouto',
-      title: 'omariosouto',
-      imageUrl: 'https://github.com/omariosouto.png'
-    },
-    {
-      id: 'peas',
-      title: 'peas',
-      imageUrl: 'https://github.com/peas.png'
-    },
-    {
-      id: 'rafaballerini',
-      title: 'rafaballerini',
-      imageUrl: 'https://github.com/rafaballerini.png'
-    },
-    {
-      id: 'marcobrunodev',
-      title: 'marcobrunodev',
-      imageUrl: 'https://github.com/marcobrunodev.png'
-    },
-    {
-      id: 'felipefialho',
-      title: 'felipefialho',
-      imageUrl: 'https://github.com/felipefialho.png'
-    },
-  ]
 
   async function handleCreateCommunity(e){
     e.preventDefault();
@@ -70,32 +41,6 @@ export default function Home(){
       setCommunities([...communities, data.newRegister]);
     }catch (error){
       throw new Error('Erro na requisição à api/comunidades' + error);
-    }
-  }
-
-  async function getGithubFollowers() {
-    try{
-      const response = await fetch(`https://api.github.com/users/${githubUser}/followers`);
-      
-      if(!response.ok){
-        throw new Error('Erro na requisição: '+response.status);
-      }
-
-      const data = await response.json();
-
-      const formattedGithubFollowers = data.map(follower => {
-        return (
-          {
-            id: follower.id,
-            title: follower.login,
-            imageUrl: `https://github.com/${follower.login}.png`
-          }
-        )
-      })
-
-      setFollowers(formattedGithubFollowers);
-    }catch(error){
-      console.error(error);
     }
   }
 
@@ -127,7 +72,6 @@ export default function Home(){
   }
 
   useEffect(() => {
-    getGithubFollowers();
     fetchCommunities();
   }, []);
 
@@ -172,9 +116,9 @@ export default function Home(){
           </Box>
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          <RelationsBlock headerText="Seguidores" objectArray={followers} />
-          <RelationsBlock headerText="Comunidades" objectArray={communities} />
-          <RelationsBlock headerText="Pessoas da comunidade" objectArray={communityPeople} />
+          <RelationsBlock headerText="Seguidores" objectArray={ followers } goToPage="/seguidores"/>
+          <RelationsBlock headerText="Comunidades" objectArray={ communities } goToPage="/comunidades"/>
+          <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } goToPage="/pessoas-comunidade"/>
         </div>
       </MainGrid>
   </>
