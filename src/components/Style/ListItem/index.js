@@ -3,12 +3,6 @@ import styled from 'styled-components';
 export const Main = styled.main`
   width: 100%;
   max-width: 1110px;
-  margin: 48px auto 0;
-  padding: 16px 64px;
-
-  @media (max-width: 860px){
-    padding: 16px;
-  }
 `
 export const Ul = styled.ul`
   background: #fff;

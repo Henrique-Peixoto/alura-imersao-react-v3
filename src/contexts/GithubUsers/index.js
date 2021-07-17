@@ -26,7 +26,7 @@ export function GithubUsersProvider({ children }) {
 
       setFollowers(followersFormatted);
     }catch (error){
-      throw new Error('fetchGithubUsers in GithubUsersContextProvider: ')
+      throw new Error('fetchGithubUsers in GithubUsersContextProvider: ', error)
     }
   }
 

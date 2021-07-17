@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
-import { useGithubUsersContext } from '../src/contexts/GithubUsersContext';
+import { useGithubUsersContext } from '../src/contexts/GithubUsers';
 import { usePeopleFromCommunityContext } from '../src/contexts/PeopleFromCommunity';
+import { useCommunitiesContext } from '../src/contexts/Communities';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
 import Box from '../src/components/Style/Box';
+import ShowListItems from '../src/components/Functional/ShowListItems';
+import { ListItem } from '../src/components/Style/ListItem';
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 
 // export default function Home(props) {
@@ -15,7 +18,11 @@ export default function Home(){
   const githubUser = 'Henrique-Peixoto';
   const followers = useGithubUsersContext();
   const communityPeople = usePeopleFromCommunityContext();
-  const [communities, setCommunities] = useState([]);
+  const { communities, setCommunities } = useCommunitiesContext();
+  const [showWelcomeAsMainContent, setShowWelcomeAsMainContent] = useState(true);
+  const [showFollowersAsMainContent, setShowFollowersAsMainContent] = useState(false);
+  const [showCommunitiesAsMainContent, setShowCommunitiesAsMainContent] = useState(false);
+  const [showCommunityPeopleAsMainContent, setShowCommunityPeopleAsMainContent] = useState(false);
 
   async function handleCreateCommunity(e){
     e.preventDefault();
@@ -44,81 +51,142 @@ export default function Home(){
     }
   }
 
-  async function fetchCommunities() {
-    const response = await fetch('https://graphql.datocms.com/', {
-      method: 'POST',
-      headers: {
-        'Authorization': '8e421ef34582ae4475657f4d8053dd',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ "query": `query {
-        allCommunities {
-          title
-          id
-          imageUrl
-          creatorSlug
-        }
-      }`})
-    })
-
-    if(!response.ok){
-      throw new Error('Erro na requisição ao DatoCMS:'+response.status);
-    }
-
-    const data = await response.json();
-    const communitiesFromDato = data.data.allCommunities;
-    setCommunities(communitiesFromDato);
+  function UpdateMainContentToFollowers() {
+    setShowFollowersAsMainContent(true);
+    setShowCommunitiesAsMainContent(false);
+    setShowCommunityPeopleAsMainContent(false);
+    setShowWelcomeAsMainContent(false);
   }
 
-  useEffect(() => {
-    fetchCommunities();
-  }, []);
+  function UpdateMainContentToCommunities() {
+    setShowFollowersAsMainContent(false);
+    setShowCommunitiesAsMainContent(true);
+    setShowCommunityPeopleAsMainContent(false);
+    setShowWelcomeAsMainContent(false);
+  }
+
+  function UpdateMainContentToCommunityPeople() {
+    setShowFollowersAsMainContent(false);
+    setShowCommunitiesAsMainContent(false);
+    setShowCommunityPeopleAsMainContent(true);
+    setShowWelcomeAsMainContent(false);
+  }
+
+  function UpdateMainContentToWelcome() {
+    setShowFollowersAsMainContent(false);
+    setShowCommunitiesAsMainContent(false);
+    setShowCommunityPeopleAsMainContent(false);
+    setShowWelcomeAsMainContent(true);
+  }
 
   return (
     <>
-      <AlurakutMenu githubUser={githubUser}/>
+      <AlurakutMenu githubUser={githubUser} updateMainContentToWelcome={UpdateMainContentToWelcome} />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
           <ProfileSidebar githubUser={githubUser}/>
         </div>
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
-          <Box>
-            <h1 className="title">
-              Bem-vindo(a)
-            </h1>
-            <OrkutNostalgicIconSet />
-          </Box>
+          { showWelcomeAsMainContent &&
+            <>
+              <Box>
+                <h1 className="title">
+                  Bem-vindo(a)
+                </h1>
+                <OrkutNostalgicIconSet />
+              </Box>
 
-          <Box>
-            <h2 className="subTitle">O que você deseja fazer?</h2>
-            <form onSubmit={(e) => handleCreateCommunity(e)}>
-              <div>
-                <input 
-                  placeholder="Qual vai ser o nome da sua comunidade?" 
-                  name="title"  
-                  aria-label="Qual vai ser o nome da sua comunidade?"
-                  type="text"
-                />
-              </div>
-              <div>
-                <input 
-                  placeholder="Coloque uma URL para usarmos de capa" 
-                  name="image"  
-                  aria-label="Coloque uma URL para usarmos de capa"
-                  type="text"
-                />
-              </div>
-              <button>
-                Criar comunidade
-              </button>
-            </form>
-          </Box>
+              <Box>
+                <h2 className="subTitle">O que você deseja fazer?</h2>
+                <form onSubmit={(e) => handleCreateCommunity(e)}>
+                  <div>
+                    <input 
+                      placeholder="Qual vai ser o nome da sua comunidade?" 
+                      name="title"  
+                      aria-label="Qual vai ser o nome da sua comunidade?"
+                      type="text"
+                    />
+                  </div>
+                  <div>
+                    <input 
+                      placeholder="Coloque uma URL para usarmos de capa" 
+                      name="image"  
+                      aria-label="Coloque uma URL para usarmos de capa"
+                      type="text"
+                    />
+                  </div>
+                  <button>
+                    Criar comunidade
+                  </button>
+                </form>
+              </Box>
+            </>
+          }
+          { showFollowersAsMainContent &&
+            <ShowListItems>
+              {
+                followers.map(follower => {
+                  return (
+                    <ListItem key={follower.id}>                
+                      <a href={`https://github.com/${follower.title}`} target="_blank">
+                        <img src={follower.imageUrl} />
+                        <span>{follower.title}</span>
+                      </a>
+                    </ListItem>
+                  )
+                })
+              }
+            </ShowListItems>
+          }
+          { showCommunitiesAsMainContent &&
+            <ShowListItems>
+              {
+                communities.map(community => {
+                  return (
+                    <ListItem key={community.id}>                
+                      <a href={community.imageUrl} target="_blank">
+                        <img src={community.imageUrl} />
+                        <span>{community.title}</span>
+                      </a>
+                    </ListItem>
+                  )
+                })
+              }
+            </ShowListItems>
+          }
+          { showCommunityPeopleAsMainContent &&
+            <ShowListItems>
+              {
+                communityPeople.map(person => {
+                  return (
+                    <ListItem key={person.id}>                
+                      <a href={`https://github.com/${person.title}`} target="_blank">
+                        <img src={person.imageUrl} />
+                        <span>{person.title}</span>
+                      </a>
+                    </ListItem>
+                  )
+                })
+              }
+            </ShowListItems>
+          }
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          <RelationsBlock headerText="Seguidores" objectArray={ followers } goToPage="/seguidores"/>
-          <RelationsBlock headerText="Comunidades" objectArray={ communities } goToPage="/comunidades"/>
-          <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } goToPage="/pessoas-comunidade"/>
+          { !showFollowersAsMainContent && 
+            <a onClick={UpdateMainContentToFollowers}>
+              <RelationsBlock headerText="Seguidores" objectArray={ followers } /> 
+            </a>
+          }
+          { !showCommunitiesAsMainContent && 
+            <a onClick={UpdateMainContentToCommunities}>
+              <RelationsBlock headerText="Comunidades" objectArray={ communities } /> 
+            </a>
+          }
+          { !showCommunityPeopleAsMainContent && 
+            <a onClick={UpdateMainContentToCommunityPeople}>
+              <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } /> 
+            </a>
+          }
         </div>
       </MainGrid>
   </>
