@@ -19,7 +19,7 @@ function Link({ href, children, ...props }) {
 // ================================================================================================================
 // Menu
 // ================================================================================================================
-export function AlurakutMenu({ githubUser }) {
+export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
   const [isMenuOpen, setMenuState] = React.useState(false);
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
@@ -28,7 +28,11 @@ export function AlurakutMenu({ githubUser }) {
 
         <nav style={{ flex: 1 }}>
           {[{ name: 'Inicio', slug: '/'}, {name: 'Amigos', slug: '/amigos'}, {name: 'Comunidades', slug: '/comunidades'}].map((menuItem) => (
-            <Link key={`key__${menuItem.name.toLocaleLowerCase()}`} href={`${menuItem.slug.toLocaleLowerCase()}`}>
+            <Link 
+              key={`key__${menuItem.name.toLocaleLowerCase()}`} 
+              href="\"
+              onClick={updateMainContentToWelcome}
+            >
               {menuItem.name}
             </Link>
           ))}
@@ -52,6 +56,7 @@ export function AlurakutMenu({ githubUser }) {
     </AlurakutMenu.Wrapper>
   )
 }
+
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
   background-color: #308BC5;

@@ -1,5 +1,5 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import { GithubUsersProvider } from '../src/contexts/GithubUsersContext';
+import { GithubUsersProvider } from '../src/contexts/GithubUsers';
 import { PeopleFromCommunityProvider } from '../src/contexts/PeopleFromCommunity';
 import { CommunitiesProvider } from '../src/contexts/Communities';
 import { AlurakutStyles } from '../src/lib/AlurakutCommons';
