@@ -3,6 +3,7 @@ import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 import { useGithubUsersContext } from '../src/contexts/GithubUsersContext';
 import { usePeopleFromCommunityContext } from '../src/contexts/PeopleFromCommunity';
+import { useCommunitiesContext } from '../src/contexts/Communities';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
@@ -15,7 +16,7 @@ export default function Home(){
   const githubUser = 'Henrique-Peixoto';
   const followers = useGithubUsersContext();
   const communityPeople = usePeopleFromCommunityContext();
-  const [communities, setCommunities] = useState([]);
+  const { communities, setCommunities } = useCommunitiesContext();
 
   async function handleCreateCommunity(e){
     e.preventDefault();
@@ -43,37 +44,6 @@ export default function Home(){
       throw new Error('Erro na requisição à api/comunidades' + error);
     }
   }
-
-  async function fetchCommunities() {
-    const response = await fetch('https://graphql.datocms.com/', {
-      method: 'POST',
-      headers: {
-        'Authorization': '8e421ef34582ae4475657f4d8053dd',
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ "query": `query {
-        allCommunities {
-          title
-          id
-          imageUrl
-          creatorSlug
-        }
-      }`})
-    })
-
-    if(!response.ok){
-      throw new Error('Erro na requisição ao DatoCMS:'+response.status);
-    }
-
-    const data = await response.json();
-    const communitiesFromDato = data.data.allCommunities;
-    setCommunities(communitiesFromDato);
-  }
-
-  useEffect(() => {
-    fetchCommunities();
-  }, []);
 
   return (
     <>
