@@ -1,4 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
+import { GithubUsersProvider } from '../src/contexts/GithubUsersContext';
+import { PeopleFromCommunityProvider } from '../src/contexts/PeopleFromCommunity';
 import { AlurakutStyles } from '../src/lib/AlurakutCommons';
 
 const GlobalStyle = createGlobalStyle`
@@ -40,7 +42,11 @@ export default function App({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <GithubUsersProvider>
+          <PeopleFromCommunityProvider>
+            <Component {...pageProps} />
+          </PeopleFromCommunityProvider>
+        </GithubUsersProvider>
       </ThemeProvider>
     </>
   )

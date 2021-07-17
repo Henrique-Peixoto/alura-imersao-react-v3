@@ -37,7 +37,14 @@ export default function LoginScreen() {
   }
 
   return (
-    <main style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <main 
+      style={{ 
+        display: 'flex', 
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center' 
+      }}
+    >
       <div className="loginScreen">
         <section className="logoArea">
           <img src="https://alurakut.vercel.app/logo.svg" />

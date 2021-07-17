@@ -4,8 +4,7 @@ const MainGrid = styled.main`
   width: 100%;
   max-width: 500px;
   grid-gap: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 48px auto 0;
   padding: 16px;
 
   .profileArea {
@@ -23,5 +22,4 @@ const MainGrid = styled.main`
     grid-template-columns: 160px 1fr 312px;
   }
 `
-
 export default MainGrid;
