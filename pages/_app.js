@@ -14,7 +14,6 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: sans-serif;
-    /* background-color: ${({ theme }) => theme === 'light' ? '#D9E6F6' : '#333'}; */
     background-color: #D9E6F6;
   }
 

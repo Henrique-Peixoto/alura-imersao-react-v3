@@ -24,6 +24,11 @@ export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
   const [isMenuOpen, setMenuState] = React.useState(false);
   const { theme, setTheme } = useThemeSwitcherContext();
 
+  function saveThemeToggle() {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+    localStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
+  }
+
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen} theme={theme}>
       <div className="container">
@@ -42,7 +47,7 @@ export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
         </nav>
 
         <nav>
-          <a onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+          <a onClick={saveThemeToggle}>
             Troca Tema
           </a>
           <a href={`/logout`}>

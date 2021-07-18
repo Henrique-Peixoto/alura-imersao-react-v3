@@ -1,4 +1,4 @@
-import React, { useContext, useState, createContext } from 'react';
+import React, { useContext, useState, useEffetct, createContext, useEffect } from 'react';
 
 const ThemeSwitcherContext = createContext();
 
@@ -7,7 +7,19 @@ export function useThemeSwitcherContext() {
 }
 
 export function ThemeSwitcherProvider({ children }) {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState();
+
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('theme');
+    console.log(currentTheme);
+
+    if(currentTheme){
+      setTheme(currentTheme);
+    }else{
+      setTheme('light');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [])
 
   return (
     <ThemeSwitcherContext.Provider value={{ theme, setTheme }}>
