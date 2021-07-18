@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 
-export const PeopleFromCommunityContext = createContext();
+const PeopleFromCommunityContext = createContext();
 
 export function usePeopleFromCommunityContext() {
   return useContext(PeopleFromCommunityContext);

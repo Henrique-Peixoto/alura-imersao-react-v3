@@ -2,6 +2,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { GithubUsersProvider } from '../src/contexts/GithubUsers';
 import { PeopleFromCommunityProvider } from '../src/contexts/PeopleFromCommunity';
 import { CommunitiesProvider } from '../src/contexts/Communities';
+import { ThemeSwitcherProvider } from '../src/contexts/ThemeSwitcher';
 import { AlurakutStyles } from '../src/lib/AlurakutCommons';
 
 const GlobalStyle = createGlobalStyle`
@@ -9,12 +10,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* font-size: 62.5%; */
   }
 
   body {
     font-family: sans-serif;
-    background-color: #d9e6f6;
+    /* background-color: ${({ theme }) => theme === 'light' ? '#D9E6F6' : '#333'}; */
+    background-color: #D9E6F6;
   }
 
   #__next {
@@ -41,16 +42,18 @@ const theme = {
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <CommunitiesProvider>
-          <GithubUsersProvider>
-            <PeopleFromCommunityProvider>
-              <Component {...pageProps} />
-            </PeopleFromCommunityProvider>
-          </GithubUsersProvider>
-        </CommunitiesProvider>
-      </ThemeProvider>
+      <ThemeSwitcherProvider>
+        <GlobalStyle theme={'light'} />
+        <ThemeProvider theme={theme}>
+          <CommunitiesProvider>
+            <GithubUsersProvider>
+              <PeopleFromCommunityProvider>
+                <Component {...pageProps} />
+              </PeopleFromCommunityProvider>
+            </GithubUsersProvider>
+          </CommunitiesProvider>
+        </ThemeProvider>
+      </ThemeSwitcherProvider>
     </>
   )
 }

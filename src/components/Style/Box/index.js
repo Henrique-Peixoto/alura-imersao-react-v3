@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Box = styled.div`
-  background: #FFFFFF;
+  background-color: ${({ theme }) => theme === 'light' ? '#FFF' : '#222'};
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 10px;
@@ -14,12 +14,14 @@ const Box = styled.div`
   }
 
   .title {
+    color: ${({ theme }) => theme === 'light' ? '#000' : '#FFF'};
     font-size: 32px;
     font-weight: 400;
     margin-bottom: 20px;
   }
 
   .subTitle {
+    color: ${({ theme }) => theme === 'light' ? '#000' : '#FFF'};
     font-size: 18px;
     font-weight: 400;
     margin-bottom: 20px;
@@ -42,7 +44,7 @@ const Box = styled.div`
 
   input {
     width: 100%;
-    background-color: #F4F4F4;
+    background-color: ${({ theme }) => theme === 'light' ? '#F4F4F4' : '#333'};
     color: #333333;
     border: 0;
     padding: 14px 16px;
@@ -50,7 +52,7 @@ const Box = styled.div`
     border-radius: 10000px;
     
     ::placeholder {
-      color: #333333;
+      color: ${({ theme }) => theme === 'light' ? '#333' : '#FFF'};
       opacity: 1;
     }
   }
@@ -58,9 +60,9 @@ const Box = styled.div`
   button {
     border: 0;
     padding: 8px 12px;
-    color: #FFFFFF;
+    color: #FFF;
     border-radius: 10000px;
-    background-color: #6F92BB;
+    background-color: ${({ theme }) => theme === 'light' ? '#6F92BB' : '#333'};
   }
 `
 

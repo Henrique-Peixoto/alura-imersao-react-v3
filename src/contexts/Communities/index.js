@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from 'react';
 
-export const CommunitiesContext = createContext();
+const CommunitiesContext = createContext();
 
 export function useCommunitiesContext() {
   return useContext(CommunitiesContext);

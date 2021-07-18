@@ -3,9 +3,9 @@ import styled from 'styled-components';
 export const Main = styled.main`
   width: 100%;
   max-width: 1110px;
-`
+  `
 export const Ul = styled.ul`
-  background: #fff;
+  background-color: ${({ theme }) => theme === 'light' ? '#FFF' : '#222'};
   border-radius: 8px;
   padding: 8px 0;
 `
@@ -33,7 +33,7 @@ export const ListItem = styled.li`
 
   a span {
     display: block;
-    color: black;
+    color: ${({ theme }) => theme === 'light' ? '#000' : '#FFF'};
     font-size: 20px;
   }
 

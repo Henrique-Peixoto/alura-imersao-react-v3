@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { useGithubUsersContext } from '../src/contexts/GithubUsers';
 import { usePeopleFromCommunityContext } from '../src/contexts/PeopleFromCommunity';
 import { useCommunitiesContext } from '../src/contexts/Communities';
+import { useThemeSwitcherContext } from '../src/contexts/ThemeSwitcher';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
@@ -18,6 +19,7 @@ export default function Home(){
   const githubUser = 'Henrique-Peixoto';
   const followers = useGithubUsersContext();
   const communityPeople = usePeopleFromCommunityContext();
+  const { theme } = useThemeSwitcherContext();
   const { communities, setCommunities } = useCommunitiesContext();
   const [showWelcomeAsMainContent, setShowWelcomeAsMainContent] = useState(true);
   const [showFollowersAsMainContent, setShowFollowersAsMainContent] = useState(false);
@@ -80,7 +82,9 @@ export default function Home(){
   }
 
   return (
-    <>
+    <div 
+      style={{ backgroundColor: theme === 'light' ? '#D9E6F6' : '#333'}}
+    >
       <AlurakutMenu githubUser={githubUser} updateMainContentToWelcome={UpdateMainContentToWelcome} />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
@@ -89,14 +93,14 @@ export default function Home(){
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           { showWelcomeAsMainContent &&
             <>
-              <Box>
+              <Box theme={theme}>
                 <h1 className="title">
                   Bem-vindo(a)
                 </h1>
                 <OrkutNostalgicIconSet />
               </Box>
 
-              <Box>
+              <Box theme={theme}>
                 <h2 className="subTitle">O que você deseja fazer?</h2>
                 <form onSubmit={(e) => handleCreateCommunity(e)}>
                   <div>
@@ -189,7 +193,7 @@ export default function Home(){
           }
         </div>
       </MainGrid>
-  </>
+  </div>
   )
 }
 

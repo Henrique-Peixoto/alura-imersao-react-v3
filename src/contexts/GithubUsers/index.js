@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 
-export const GithubUsersContext = createContext();
+const GithubUsersContext = createContext();
 
 export function useGithubUsersContext() {
   return useContext(GithubUsersContext);
