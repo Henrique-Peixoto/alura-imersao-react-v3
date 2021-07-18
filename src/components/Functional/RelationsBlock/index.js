@@ -1,12 +1,13 @@
 import React from 'react';
 import { ProfileRelationsBoxWrapper } from '../../Style/ProfileRelations';
+import { useThemeSwitcherContext } from '../../../contexts/ThemeSwitcher';
 
-export default function RelationsBlock({ headerText, objectArray, goToPage }) {
+export default function RelationsBlock({ headerText, objectArray }) {
+  const { theme } = useThemeSwitcherContext();
+
   return (
-    <ProfileRelationsBoxWrapper>
-      <a href={ goToPage }>
-        <h2 className="smallTitle">{`${headerText} (${objectArray.length})`}</h2>
-      </a>
+    <ProfileRelationsBoxWrapper theme={theme}>
+      <h2 className="smallTitle">{`${headerText} (${objectArray.length})`}</h2>
       <ul>
         { 
           objectArray.slice(0,6).map(obj => {

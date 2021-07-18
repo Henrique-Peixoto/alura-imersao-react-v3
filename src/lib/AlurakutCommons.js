@@ -1,5 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
+import { useThemeSwitcherContext } from '../contexts/ThemeSwitcher';
 import NextLink from 'next/link';
 
 const BASE_URL = 'http://alurakut.vercel.app/';
@@ -21,8 +22,15 @@ function Link({ href, children, ...props }) {
 // ================================================================================================================
 export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
   const [isMenuOpen, setMenuState] = React.useState(false);
+  const { theme, setTheme } = useThemeSwitcherContext();
+
+  function saveThemeToggle() {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+    localStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
+  }
+
   return (
-    <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen}>
+    <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen} theme={theme}>
       <div className="container">
         <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
 
@@ -39,6 +47,9 @@ export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
         </nav>
 
         <nav>
+          <a onClick={saveThemeToggle}>
+            Troca Tema
+          </a>
           <a href={`/logout`}>
             Sair
           </a>
@@ -59,12 +70,12 @@ export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
 
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308BC5;
+  background-color: ${({ theme }) => theme === 'light' ? '#308BC5' : '#222'};
   position: fixed;
   z-index: 10;
 
   .alurakutMenuProfileSidebar {
-    background: white;
+    background: ${({ theme }) => theme === 'light' ? '#FFF' : "#333"};
     position: fixed;
     z-index: 100;
     padding: 46px;
@@ -79,13 +90,16 @@ AlurakutMenu.Wrapper = styled.header`
     @media(min-width: 860px) {
       display: none;
     }
+
     > div {
       max-width: 400px;
       margin: auto;
     }
+
     a {
       font-size: 18px;
     }
+
     .boxLink {
       font-size: 18px;
       color: #2E7BB4;
@@ -103,7 +117,7 @@ AlurakutMenu.Wrapper = styled.header`
   }
 
   .container {
-    background-color: #308BC5;
+    background-color: ${({ theme }) => theme === 'light' ? '#308BC5' : '#222'};
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -130,15 +144,17 @@ AlurakutMenu.Wrapper = styled.header`
       @media(min-width: 860px) {
         display: flex;
       }
+
       a {
         font-size: 12px;
-        color: white;
+        color: ${({ theme }) => theme === 'light' ? 'white' : '#FFF'};
         padding: 10px 16px;
         position: relative;
         text-decoration: none;
+
         &:after {
           content: " ";
-          background-color: #5292C1;
+          background-color: ${({ theme }) => theme === 'light' ? '#5292C1' : '#333'};
           display: block;
           position: absolute;
           width: 1px;
@@ -150,9 +166,10 @@ AlurakutMenu.Wrapper = styled.header`
         }
       }
     }
+
     input {
-      color: #ffffff;
-      background: #5579A1;
+      color: #FFF;
+      background: ${({ theme }) => theme === 'light' ? '#5579A1' : '#333'};
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${BASE_URL}/icons/search.svg`});
@@ -160,13 +177,15 @@ AlurakutMenu.Wrapper = styled.header`
       background-repeat: no-repeat;
       border-radius: 1000px;
       font-size: 12px;
+
       ::placeholder {
-        color: #ffffff;
+        color: ${({ theme }) => theme === 'light' ? '#FFF' : '#FFF'};
         opacity: 1;
       }
     } 
   }
 `;
+
 AlurakutMenu.Logo = styled.img`
   background-color: #ffffff;
   padding: 9px 14px;
@@ -175,8 +194,10 @@ AlurakutMenu.Logo = styled.img`
 `;
 
 function AlurakutMenuProfileSidebar({ githubUser }) {
+  const { theme } = useThemeSwitcherContext();
+
   return (
-    <div className="alurakutMenuProfileSidebar">
+    <div className="alurakutMenuProfileSidebar" theme={theme}>
       <div>
         <img src={`https://github.com/${githubUser}.png`} style={{ borderRadius: '8px' }} />
         <hr />
@@ -197,8 +218,10 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
 // AlurakutProfileSidebarMenuDefault
 // ================================================================================================================
 export function AlurakutProfileSidebarMenuDefault() {
+  const { theme } = useThemeSwitcherContext();
+
   return (
-    <AlurakutProfileSidebarMenuDefault.Wrapper>
+    <AlurakutProfileSidebarMenuDefault.Wrapper theme={theme} >
       <nav>
         <a href="/">
           <img src={`${BASE_URL}/icons/user.svg`} />
@@ -231,15 +254,17 @@ export function AlurakutProfileSidebarMenuDefault() {
     </AlurakutProfileSidebarMenuDefault.Wrapper>
   )
 }
+
 AlurakutProfileSidebarMenuDefault.Wrapper = styled.div`
   a {
     font-size: 12px;
-    color: #2E7BB4;
+    color: ${({ theme }) => theme === 'light' ? '#2E7BB4' : '#FFF'};
     margin-bottom: 16px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     text-decoration: none;
+
     img {
       width: 16px;
       height: 16px;
@@ -252,8 +277,10 @@ AlurakutProfileSidebarMenuDefault.Wrapper = styled.div`
 // OrkutNostalgicIconSet
 // ================================================================================================================
 export function OrkutNostalgicIconSet(props) {
+  const { theme } = useThemeSwitcherContext();
+
   return (
-    <OrkutNostalgicIconSet.List>
+    <OrkutNostalgicIconSet.List theme={theme}>
       {[
         { name: 'Recados', slug: 'recados', icon: 'book' },
         { name: 'Fotos', slug: 'fotos', icon: 'camera' },
@@ -294,15 +321,17 @@ export function OrkutNostalgicIconSet(props) {
     </OrkutNostalgicIconSet.List>
   )
 }
+
 OrkutNostalgicIconSet.List = styled.ul`
   margin-top: 32px;
   list-style: none;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+
   li {
     font-size: 12px;
-    color: #5A5A5A;
+    color: ${({ theme }) => theme === 'light' ? '#5A5A5A' : '#FFF'};
     display: grid;
     grid-template-areas:
       "title title"
@@ -311,15 +340,18 @@ OrkutNostalgicIconSet.List = styled.ul`
     &:not(:last-child) {
       margin-right: 5px;
     }
+
     .OrkutNostalgicIconSet__title {
       display: block;
       font-style: italic; 
     }
+
     .OrkutNostalgicIconSet__number {
       min-width: 15px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
+
       .OrkutNostalgicIconSet__iconSample {
         margin-right: 7px;
       }
@@ -347,6 +379,9 @@ const AlurakutLoginScreen = css`
     --commonRadius: 8px;
   }
 
+  .lightParagraph {
+    color: #FFFFFF;
+  }
 
   .loginScreen {
     padding: 16px;
@@ -359,6 +394,7 @@ const AlurakutLoginScreen = css`
       "logoArea"
       "formArea"
       "footerArea";
+
     @media(min-width: 860px) {
       grid-template-columns: 2fr 1fr;
       grid-template-areas: 
@@ -366,6 +402,7 @@ const AlurakutLoginScreen = css`
               "logoArea formArea"
               "footerArea footerArea";
     }
+
     .logoArea {
       grid-area: logoArea;
       background-color: var(--backgroundTertiary);
@@ -381,26 +418,31 @@ const AlurakutLoginScreen = css`
       @media(min-width: 860px) {
         min-height: 368px;
       }
+
       p {
         font-size: 12px;
         line-height: 1.2;
         &:not(:last-child) {
           margin-bottom: 12px;
         }
+
         strong {
           color: var(--colorQuarternary);
         }
       }
+
       img {
         max-height: 45px;
         margin-bottom: 36px;
       }
     }
+
     .formArea {
       grid-area: formArea;
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
+
       .box {
         display: flex;
         flex-direction: column;
@@ -413,22 +455,27 @@ const AlurakutLoginScreen = css`
         background-color: var(--backgroundSecondary);
         border-radius: var(--commonRadius);
         flex: 1;
+
         &:not(:last-child) {
           margin-bottom: var(--gap);
         }
+
         &:first-child {
           min-height: 224px;
           @media(min-width: 860px) {
             min-height: 282px;
           }
         }
+
         p {
           font-size: 14px;
         }
+
         a {
           text-decoration: none;
           color: var(--colorPrimary);
         }
+
         input {
           width: 100%;
           display: block;
@@ -439,6 +486,7 @@ const AlurakutLoginScreen = css`
           margin-top: 24px;
           margin-bottom: 16px;
         }
+
         button {
           width: 100%;
           display: block;
@@ -450,6 +498,7 @@ const AlurakutLoginScreen = css`
         }
       }
     }
+
     .footerArea {
       grid-area: footerArea;
       background-color: var(--backgroundQuarternary);
@@ -474,16 +523,20 @@ export const AlurakutStyles = css`
   *::-webkit-scrollbar {
     width: 8px;
   }
+
   *::-webkit-scrollbar-track {
     background: #f1f1f1; 
   }
+
   *::-webkit-scrollbar-thumb {
     background: #888; 
     border-radius: 10px;
   }
+
   *::-webkit-scrollbar-thumb:hover {
     background: #555; 
   }
+
   a,
   button {
     cursor: pointer;
@@ -493,18 +546,22 @@ export const AlurakutStyles = css`
     &:focus {
       opacity: .8;
     }
+
     &:disabled {
       cursor: not-allowed;
       opacity: .5;
     }
   }
+
   input {
     transition: .3s;
     outline: 0;
+  
     &:disabled {
       cursor: not-allowed;
       opacity: .5;
     }
+
     &:hover,
     &:focus {
       box-shadow: 0px 0px 5px #33333357;

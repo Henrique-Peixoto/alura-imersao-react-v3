@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { useGithubUsersContext } from '../src/contexts/GithubUsers';
 import { usePeopleFromCommunityContext } from '../src/contexts/PeopleFromCommunity';
 import { useCommunitiesContext } from '../src/contexts/Communities';
+import { useThemeSwitcherContext } from '../src/contexts/ThemeSwitcher';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
@@ -18,6 +19,7 @@ export default function Home(){
   const githubUser = 'Henrique-Peixoto';
   const followers = useGithubUsersContext();
   const communityPeople = usePeopleFromCommunityContext();
+  const { theme } = useThemeSwitcherContext();
   const { communities, setCommunities } = useCommunitiesContext();
   const [showWelcomeAsMainContent, setShowWelcomeAsMainContent] = useState(true);
   const [showFollowersAsMainContent, setShowFollowersAsMainContent] = useState(false);
@@ -80,7 +82,9 @@ export default function Home(){
   }
 
   return (
-    <>
+    <div 
+      style={{ backgroundColor: theme === 'light' ? '#D9E6F6' : '#333'}}
+    >
       <AlurakutMenu githubUser={githubUser} updateMainContentToWelcome={UpdateMainContentToWelcome} />
       <MainGrid>
         <div className="profileArea" style={{ gridArea: 'profileArea' }}>
@@ -89,14 +93,14 @@ export default function Home(){
         <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
           { showWelcomeAsMainContent &&
             <>
-              <Box>
+              <Box theme={theme}>
                 <h1 className="title">
                   Bem-vindo(a)
                 </h1>
                 <OrkutNostalgicIconSet />
               </Box>
 
-              <Box>
+              <Box theme={theme}>
                 <h2 className="subTitle">O que você deseja fazer?</h2>
                 <form onSubmit={(e) => handleCreateCommunity(e)}>
                   <div>
@@ -127,7 +131,7 @@ export default function Home(){
               {
                 followers.map(follower => {
                   return (
-                    <ListItem key={follower.id}>                
+                    <ListItem key={follower.id} theme={theme}>                
                       <a href={`https://github.com/${follower.title}`} target="_blank">
                         <img src={follower.imageUrl} />
                         <span>{follower.title}</span>
@@ -143,7 +147,7 @@ export default function Home(){
               {
                 communities.map(community => {
                   return (
-                    <ListItem key={community.id}>                
+                    <ListItem key={community.id} theme={theme}>                
                       <a href={community.imageUrl} target="_blank">
                         <img src={community.imageUrl} />
                         <span>{community.title}</span>
@@ -159,7 +163,7 @@ export default function Home(){
               {
                 communityPeople.map(person => {
                   return (
-                    <ListItem key={person.id}>                
+                    <ListItem key={person.id} theme={theme}>                
                       <a href={`https://github.com/${person.title}`} target="_blank">
                         <img src={person.imageUrl} />
                         <span>{person.title}</span>
@@ -189,7 +193,7 @@ export default function Home(){
           }
         </div>
       </MainGrid>
-  </>
+  </div>
   )
 }
 
