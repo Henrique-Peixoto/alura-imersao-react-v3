@@ -131,7 +131,7 @@ export default function Home(){
               {
                 followers.map(follower => {
                   return (
-                    <ListItem key={follower.id}>                
+                    <ListItem key={follower.id} theme={theme}>                
                       <a href={`https://github.com/${follower.title}`} target="_blank">
                         <img src={follower.imageUrl} />
                         <span>{follower.title}</span>
@@ -147,7 +147,7 @@ export default function Home(){
               {
                 communities.map(community => {
                   return (
-                    <ListItem key={community.id}>                
+                    <ListItem key={community.id} theme={theme}>                
                       <a href={community.imageUrl} target="_blank">
                         <img src={community.imageUrl} />
                         <span>{community.title}</span>
@@ -163,7 +163,7 @@ export default function Home(){
               {
                 communityPeople.map(person => {
                   return (
-                    <ListItem key={person.id}>                
+                    <ListItem key={person.id} theme={theme}>                
                       <a href={`https://github.com/${person.title}`} target="_blank">
                         <img src={person.imageUrl} />
                         <span>{person.title}</span>
