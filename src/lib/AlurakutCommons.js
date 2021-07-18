@@ -163,7 +163,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
 
     input {
-      color: ${({ theme }) => theme === 'light' ? '#FFF' : '#FFF'};
+      color: #FFF;
       background: ${({ theme }) => theme === 'light' ? '#5579A1' : '#333'};
       padding: 10px 42px;
       border: 0;
@@ -374,6 +374,9 @@ const AlurakutLoginScreen = css`
     --commonRadius: 8px;
   }
 
+  .lightParagraph {
+    color: #FFFFFF;
+  }
 
   .loginScreen {
     padding: 16px;

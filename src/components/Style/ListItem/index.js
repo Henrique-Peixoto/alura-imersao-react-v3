@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Main = styled.main`
   width: 100%;
   max-width: 1110px;
+  margin-bottom: 8px;
   `
 export const Ul = styled.ul`
   background-color: ${({ theme }) => theme === 'light' ? '#FFF' : '#222'};

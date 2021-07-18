@@ -6,8 +6,8 @@ export default function ShowListItems({ children }) {
   const { theme } = useThemeSwitcherContext();
 
   return (
-      <Main theme={theme}>
-        <Ul>
+      <Main>
+        <Ul theme={theme}>
           { children }
         </Ul>
       </Main>

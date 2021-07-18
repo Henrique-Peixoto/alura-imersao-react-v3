@@ -7,7 +7,7 @@ export function useThemeSwitcherContext() {
 }
 
 export function ThemeSwitcherProvider({ children }) {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState('dark');
 
   return (
     <ThemeSwitcherContext.Provider value={{ theme, setTheme }}>
