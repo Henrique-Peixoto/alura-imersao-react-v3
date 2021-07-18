@@ -11,7 +11,6 @@ export function ThemeSwitcherProvider({ children }) {
 
   useEffect(() => {
     const currentTheme = localStorage.getItem('theme');
-    console.log(currentTheme);
 
     if(currentTheme){
       setTheme(currentTheme);

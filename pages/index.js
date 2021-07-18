@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import nookies from 'nookies';
 import jwt from 'jsonwebtoken';
 import { useGithubUsersContext } from '../src/contexts/GithubUsers';
 import { usePeopleFromCommunityContext } from '../src/contexts/PeopleFromCommunity';
-import { useCommunitiesContext } from '../src/contexts/Communities';
 import { useThemeSwitcherContext } from '../src/contexts/ThemeSwitcher';
+import { useCommunitiesContext } from '../src/contexts/Communities';
+import { usePostsContext } from '../src/contexts/Posts';
 import RelationsBlock from '../src/components/Functional/RelationsBlock';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
 import MainGrid from '../src/components/Style/MainGrid';
@@ -16,6 +18,7 @@ import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons'
 // export default function Home(props) {
 export default function Home(){
   // const githubUser = props.githupbUser;
+  const router = useRouter();
   const githubUser = 'Henrique-Peixoto';
   const followers = useGithubUsersContext();
   const communityPeople = usePeopleFromCommunityContext();
@@ -126,71 +129,17 @@ export default function Home(){
               </Box>
             </>
           }
-          { showFollowersAsMainContent &&
-            <ShowListItems>
-              {
-                followers.map(follower => {
-                  return (
-                    <ListItem key={follower.id} theme={theme}>                
-                      <a href={`https://github.com/${follower.title}`} target="_blank">
-                        <img src={follower.imageUrl} />
-                        <span>{follower.title}</span>
-                      </a>
-                    </ListItem>
-                  )
-                })
-              }
-            </ShowListItems>
-          }
-          { showCommunitiesAsMainContent &&
-            <ShowListItems>
-              {
-                communities.map(community => {
-                  return (
-                    <ListItem key={community.id} theme={theme}>                
-                      <a href={community.imageUrl} target="_blank">
-                        <img src={community.imageUrl} />
-                        <span>{community.title}</span>
-                      </a>
-                    </ListItem>
-                  )
-                })
-              }
-            </ShowListItems>
-          }
-          { showCommunityPeopleAsMainContent &&
-            <ShowListItems>
-              {
-                communityPeople.map(person => {
-                  return (
-                    <ListItem key={person.id} theme={theme}>                
-                      <a href={`https://github.com/${person.title}`} target="_blank">
-                        <img src={person.imageUrl} />
-                        <span>{person.title}</span>
-                      </a>
-                    </ListItem>
-                  )
-                })
-              }
-            </ShowListItems>
-          }
         </div>
         <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
-          { !showFollowersAsMainContent && 
-            <a onClick={UpdateMainContentToFollowers}>
-              <RelationsBlock headerText="Seguidores" objectArray={ followers } /> 
-            </a>
-          }
-          { !showCommunitiesAsMainContent && 
-            <a onClick={UpdateMainContentToCommunities}>
-              <RelationsBlock headerText="Comunidades" objectArray={ communities } /> 
-            </a>
-          }
-          { !showCommunityPeopleAsMainContent && 
-            <a onClick={UpdateMainContentToCommunityPeople}>
-              <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } /> 
-            </a>
-          }
+          <a onClick={() => router.push('/seguidores')}>
+            <RelationsBlock headerText="Seguidores" objectArray={ followers } /> 
+          </a>
+          <a onClick={() => router.push('/comunidades')}>
+            <RelationsBlock headerText="Comunidades" objectArray={ communities } /> 
+          </a>
+          <a onClick={() => router.push('/pessoas-comunidade')}>
+            <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } /> 
+          </a>
         </div>
       </MainGrid>
   </div>

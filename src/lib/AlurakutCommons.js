@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import styled, { css } from 'styled-components';
 import { useThemeSwitcherContext } from '../contexts/ThemeSwitcher';
 import NextLink from 'next/link';
@@ -20,7 +21,7 @@ function Link({ href, children, ...props }) {
 // ================================================================================================================
 // Menu
 // ================================================================================================================
-export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
+export function AlurakutMenu({ githubUser }) {
   const [isMenuOpen, setMenuState] = React.useState(false);
   const { theme, setTheme } = useThemeSwitcherContext();
 
@@ -35,11 +36,14 @@ export function AlurakutMenu({ githubUser, updateMainContentToWelcome }) {
         <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
 
         <nav style={{ flex: 1 }}>
-          {[{ name: 'Inicio', slug: '/'}, {name: 'Amigos', slug: '/amigos'}, {name: 'Comunidades', slug: '/comunidades'}].map((menuItem) => (
+          {[
+            { name: 'Inicio', slug: '/'}, 
+            {name: 'Amigos', slug: '/amigos'}, 
+            {name: 'Comunidades', slug: '/comunidades'}
+          ].map((menuItem) => (
             <Link 
               key={`key__${menuItem.name.toLocaleLowerCase()}`} 
-              href="\"
-              onClick={updateMainContentToWelcome}
+              href={menuItem.slug}
             >
               {menuItem.name}
             </Link>
@@ -219,6 +223,7 @@ function AlurakutMenuProfileSidebar({ githubUser }) {
 // ================================================================================================================
 export function AlurakutProfileSidebarMenuDefault() {
   const { theme } = useThemeSwitcherContext();
+  const router = useRouter();
 
   return (
     <AlurakutProfileSidebarMenuDefault.Wrapper theme={theme} >
@@ -231,10 +236,10 @@ export function AlurakutProfileSidebarMenuDefault() {
           <img src={`${BASE_URL}/icons/book.svg`} />
             Recados
           </a>
-        <a href="/">
+        <a onClick={() => router.push('/posts')}>
           <img src={`${BASE_URL}/icons/camera.svg`} />
             Fotos
-          </a>
+        </a>
         <a href="/">
           <img src={`${BASE_URL}/icons/sun.svg`} />
             Depoimentos
