@@ -66,7 +66,7 @@ Faça login no Alurakut com sua conta do GitHub.
 ![image](https://user-images.githubusercontent.com/57225006/126092506-966c17c6-075a-4e5d-b45d-7b1f0cac251e.png)
 
 ### Envio de posts
-Poste fotos e legendas no seu perfil!
+Poste fotos e legendas no seu perfil através da opção "Fotos" no menu logo abaixo da foto do usuário!
 ![image](https://user-images.githubusercontent.com/57225006/126092573-4899a82c-9c44-428d-8684-1a63dcaed3b6.png)
 
 
