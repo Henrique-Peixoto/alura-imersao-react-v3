@@ -24,6 +24,7 @@ function Link({ href, children, ...props }) {
 export function AlurakutMenu({ githubUser }) {
   const [isMenuOpen, setMenuState] = React.useState(false);
   const { theme, setTheme } = useThemeSwitcherContext();
+  const router = useRouter();
 
   function saveThemeToggle() {
     setTheme(theme === 'light' ? 'dark' : 'light');
@@ -33,12 +34,13 @@ export function AlurakutMenu({ githubUser }) {
   return (
     <AlurakutMenu.Wrapper isMenuOpen={isMenuOpen} theme={theme}>
       <div className="container">
-        <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
-
+        <a onClick={() => router.push('/')}>
+          <AlurakutMenu.Logo src={`${BASE_URL}/logo.svg`} />
+        </a>
         <nav style={{ flex: 1 }}>
           {[
             { name: 'Inicio', slug: '/'}, 
-            {name: 'Amigos', slug: '/amigos'}, 
+            {name: 'Amigos', slug: '/seguidores'}, 
             {name: 'Comunidades', slug: '/comunidades'}
           ].map((menuItem) => (
             <Link 

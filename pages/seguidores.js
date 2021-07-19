@@ -1,9 +1,9 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { useThemeSwitcherContext } from '../src/contexts/ThemeSwitcher';
 import { useGithubUsersContext } from '../src/contexts/GithubUsers';
 import { useCommunitiesContext } from '../src/contexts/Communities';
 import { usePeopleFromCommunityContext } from '../src/contexts/PeopleFromCommunity';
+// import { useUserLoginContext } from '../src/contexts/UserLogin';
 import MainGrid from '../src/components/Style/MainGrid';
 import { AlurakutMenu } from '../src/lib/AlurakutCommons';
 import ProfileSidebar from '../src/components/Functional/ProfileSidebar';
@@ -12,7 +12,6 @@ import ShowListItems from '../src/components/Functional/ShowListItems';
 import { ListItem } from '../src/components/Style/ListItem';
 
 export default function FollowerPage() {
-  const router = useRouter();
   const followers = useGithubUsersContext();
   const { communities } = useCommunitiesContext();
   const communityPeople = usePeopleFromCommunityContext();
@@ -57,12 +56,8 @@ export default function FollowerPage() {
             gridArea: 'profileRelationsArea' 
           }}
         > 
-          <a onClick={() => router.push('/comunidades')}>
-            <RelationsBlock headerText="Comunidades" objectArray={ communities } /> 
-          </a>
-          <a onClick={() => router.push('/pessoas-comunidade')}>
-            <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } /> 
-          </a>
+          <RelationsBlock headerText="Comunidades" objectArray={ communities } goToPage="/comunidades" /> 
+          <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } goToPage="/pessoas-comunidade" /> 
         </div>
       </MainGrid>
     </div>

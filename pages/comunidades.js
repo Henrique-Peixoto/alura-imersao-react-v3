@@ -1,5 +1,4 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import { useThemeSwitcherContext } from '../src/contexts/ThemeSwitcher';
 import { useGithubUsersContext } from '../src/contexts/GithubUsers';
 import { useCommunitiesContext } from '../src/contexts/Communities';
@@ -12,7 +11,6 @@ import ShowListItems from '../src/components/Functional/ShowListItems';
 import { ListItem } from '../src/components/Style/ListItem';
 
 export default function CommunitiesPage() {
-  const router = useRouter();
   const followers = useGithubUsersContext();
   const { communities } = useCommunitiesContext();
   const communityPeople = usePeopleFromCommunityContext();
@@ -57,12 +55,8 @@ export default function CommunitiesPage() {
             gridArea: 'profileRelationsArea' 
           }}
         > 
-          <a onClick={() => router.push('/seguidores')}>
-            <RelationsBlock headerText="Seguidores" objectArray={ followers } /> 
-          </a>
-          <a onClick={() => router.push('/pessoas-comunidade')}>
-            <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } /> 
-          </a>
+          <RelationsBlock headerText="Seguidores" objectArray={ followers } goToPage="/seguidores" /> 
+          <RelationsBlock headerText="Pessoas da comunidade" objectArray={ communityPeople } goToPage="/pessoas-comunidade" /> 
         </div>
       </MainGrid>
     </div>

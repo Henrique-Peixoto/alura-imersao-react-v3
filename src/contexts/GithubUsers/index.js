@@ -11,7 +11,7 @@ export function GithubUsersProvider({ children }) {
 
   async function fetchGithubFollowers() {
     try{
-      const response = await fetch('https://api.github.com/users/Henrique-Peixoto/followers');
+      const response = await fetch(`https://api.github.com/users/Henrique-Peixoto/followers`);
       const data = await response.json();
 
       const followersFormatted = data.map(follower => {
