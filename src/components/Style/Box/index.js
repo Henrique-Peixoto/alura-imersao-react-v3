@@ -45,7 +45,7 @@ const Box = styled.div`
   input {
     width: 100%;
     background-color: ${({ theme }) => theme === 'light' ? '#F4F4F4' : '#333'};
-    color: #333333;
+    color: ${({ theme }) => theme === 'light' ? '#333' : '#FFF'};
     border: 0;
     padding: 14px 16px;
     margin-bottom: 14px;

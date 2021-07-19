@@ -2,7 +2,9 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { GithubUsersProvider } from '../src/contexts/GithubUsers';
 import { PeopleFromCommunityProvider } from '../src/contexts/PeopleFromCommunity';
 import { CommunitiesProvider } from '../src/contexts/Communities';
+import { PostsProvider } from '../src/contexts/Posts';
 import { ThemeSwitcherProvider } from '../src/contexts/ThemeSwitcher';
+// import { UserLoginProvider } from '../src/contexts/UserLogin';
 import { AlurakutStyles } from '../src/lib/AlurakutCommons';
 
 const GlobalStyle = createGlobalStyle`
@@ -44,13 +46,17 @@ export default function App({ Component, pageProps }) {
       <ThemeSwitcherProvider>
         <GlobalStyle theme={'light'} />
         <ThemeProvider theme={theme}>
-          <CommunitiesProvider>
-            <GithubUsersProvider>
-              <PeopleFromCommunityProvider>
-                <Component {...pageProps} />
-              </PeopleFromCommunityProvider>
-            </GithubUsersProvider>
-          </CommunitiesProvider>
+          {/* <UserLoginProvider> */}
+            <PostsProvider>
+              <CommunitiesProvider>
+                <GithubUsersProvider>
+                  <PeopleFromCommunityProvider>
+                    <Component {...pageProps} />
+                  </PeopleFromCommunityProvider>
+                </GithubUsersProvider>
+              </CommunitiesProvider>
+            </PostsProvider>
+          {/* </UserLoginProvider> */}
         </ThemeProvider>
       </ThemeSwitcherProvider>
     </>
